@@ -30,7 +30,7 @@ AtoZOnlineApp/
 ├── RegistrationModule.java   # Handles registration
 ├── ProductModule.java        # Manages product catalog
 ├── BillingModule.java        # Handles cart and billing
-└── AtoZOnlineAppTest.java    # Unit tests
+
 ```
 
 ## Example Interaction
