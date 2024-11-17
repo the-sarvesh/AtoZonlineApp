@@ -39,40 +39,40 @@ class BillingModule {
         System.out.println("2. Paytm / GPay (UPI)");
         System.out.println("3. Debit / Credit Card");
 
-        while (true) {
-            try {
-                int method = sc.nextInt();
+        int method = 0;
+        while (method < 1 || method > 3) { // Validating input
+            System.out.println("Enter a valid option (1-3):");
+            if (sc.hasNextInt()) {
+                method = sc.nextInt();
                 sc.nextLine(); // Consume newline left by nextInt()
-                switch (method) {
-                    case 1 -> { // Cash on Delivery
-                        System.out.println("Thank you! Your order will be delivered to:");
-                        System.out.println(address); // Use the address parameter
-                        System.out.println("Estimated delivery time: 2-3 hours.");
-                        return;
-                    }
-                    case 2 -> { // Paytm / GPay
-                        System.out.println("Enter your UPI ID or scan the QR code below:");
-                        System.out.println("[QR Code Placeholder]");
-                        String upiId = sc.nextLine();
-                        System.out.println("Payment request sent to UPI ID: " + upiId);
-                        System.out.println("Payment successful via UPI!");
-                        return;
-                    }
-                    case 3 -> { // Debit / Credit Card
-                        System.out.println("Enter your card number:");
-                        String cardNumber = sc.nextLine();
-                        System.out.println("Enter your card expiry date (MM/YY):");
-                        String expiryDate = sc.nextLine();
-                        System.out.println("Enter your CVV:");
-                        String cvv = sc.nextLine();
-                        System.out.println("Processing payment...");
-                        System.out.println("Payment successful using card ending with " + cardNumber.substring(cardNumber.length() - 4) + "!");
-                        return;
-                    }
-                    default -> throw new IllegalArgumentException("Invalid payment method selected! Try again.");
-                }
-            } catch (Exception e) {
-                System.out.println(e.getMessage());
+            } else {
+                System.out.println("Invalid input. Please enter a number between 1 and 3.");
+                sc.next(); // Consume invalid input
+            }
+        }
+
+        switch (method) {
+            case 1 -> { // Cash on Delivery
+                System.out.println("Thank you! Your order will be delivered to:");
+                System.out.println(address); // Use the address parameter
+                System.out.println("Estimated delivery time: 2-3 hours.");
+            }
+            case 2 -> { // Paytm / GPay
+                System.out.println("Enter your UPI ID or scan the QR code below:");
+                System.out.println("[QR Code Placeholder]");
+                String upiId = sc.nextLine();
+                System.out.println("Payment request sent to UPI ID: " + upiId);
+                System.out.println("Payment successful via UPI!");
+            }
+            case 3 -> { // Debit / Credit Card
+                System.out.println("Enter your card number:");
+                String cardNumber = sc.nextLine();
+                System.out.println("Enter your card expiry date (MM/YY):");
+                String expiryDate = sc.nextLine();
+                System.out.println("Enter your CVV:");
+                String cvv = sc.nextLine();
+                System.out.println("Processing payment...");
+                System.out.println("Payment successful using card ending with " + cardNumber.substring(cardNumber.length() - 4) + "!");
             }
         }
     }

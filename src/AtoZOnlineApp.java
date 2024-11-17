@@ -7,7 +7,6 @@ public class AtoZOnlineApp {
 
         // Initialize modules
         RegistrationModule registrationModule = new RegistrationModule();
-
         ProductModule productModule = new ProductModule();
         BillingModule billing = new BillingModule();
 
@@ -31,19 +30,14 @@ public class AtoZOnlineApp {
             int productCount = getIntInput(sc, "Enter a valid number of products:");
 
             for (int i = 0; i < productCount; i++) {
-                try {
-                    System.out.println("Enter product number to add to cart:");
-                    int productNumber = getIntInput(sc, "Enter a valid product number:");
+                System.out.println("Enter product number to add to cart:");
+                int productNumber = getIntInput(sc, "Enter a valid product number:");
+                Entry<String, Double> product = productModule.getProduct(selectedCategory, productNumber);
 
-                    Entry<String, Double> product = productModule.getProduct(selectedCategory, productNumber);
-
-                    if (product == null) {
-                        throw new IllegalArgumentException("Invalid product number! Please choose a valid product.");
-                    }
-
+                if (product != null) {
                     billing.addToCart(product.getKey(), product.getValue());
-                } catch (Exception e) {
-                    System.out.println(e.getMessage());
+                } else {
+                    System.out.println("Invalid product number! Please choose a valid product.");
                     i--; // Retry the current iteration
                 }
             }
@@ -54,7 +48,7 @@ public class AtoZOnlineApp {
 
             // Checkout or shop more
             if (getYesOrNoInput(sc, "Do you want to checkout? (yes/no):").equals("yes")) {
-                billing.processPayment(sc,address);
+                billing.processPayment(sc, address);
                 System.out.println("Thank you for shopping with AtoZ Online App!");
                 break;
             } else if (!getYesOrNoInput(sc, "Do you want to shop more? (yes/no):").equals("yes")) {
@@ -68,47 +62,28 @@ public class AtoZOnlineApp {
 
     // Method to select a category
     private static String selectCategory(Scanner sc, ProductModule productModule) {
-        while (true) {
-            try {
-                int categoryNumber = getIntInput(sc, "Enter the number corresponding to the category:");
-                int count = 1;
+        int categoryNumber = getIntInput(sc, "Enter the number corresponding to the category:");
+        int count = 1;
 
-                for (String category : productModule.getCategories().keySet()) {
-                    if (count == categoryNumber) {
-                        return category;
-                    }
-                    count++;
-                }
-                throw new IllegalArgumentException("Invalid category selection. Try again.");
-            } catch (Exception e) {
-                System.out.println(e.getMessage());
+        for (String category : productModule.getCategories().keySet()) {
+            if (count == categoryNumber) {
+                return category;
             }
+            count++;
         }
+        return ""; // Return empty string if no valid category is found
     }
 
     // Method to handle yes/no input
     private static String getYesOrNoInput(Scanner sc, String prompt) {
-        while (true) {
-            System.out.println(prompt);
-            String input = sc.next().trim().toLowerCase();
-            if (input.equals("yes") || input.equals("no")) {
-                return input;
-            } else {
-                System.out.println("Invalid input. Please enter 'yes' or 'no'.");
-            }
-        }
+        System.out.println(prompt);
+        String input = sc.next().trim().toLowerCase();
+        return input.equals("yes") || input.equals("no") ? input : "no";
     }
 
-    // Method to handle integer input with error handling
+    // Method to handle integer input
     private static int getIntInput(Scanner sc, String prompt) {
-        while (true) {
-            try {
-                System.out.println(prompt);
-                return sc.nextInt();
-            } catch (InputMismatchException e) {
-                System.out.println("Invalid input. Please enter a number.");
-                sc.nextLine(); // Clear scanner buffer
-            }
-        }
+        System.out.println(prompt);
+        return sc.nextInt(); // Assumes valid integer input from the user
     }
 }

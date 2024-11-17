@@ -76,6 +76,8 @@ class ProductModule {
                 double price = productPrices.get(product);
                 System.out.println(number + ". " + product + " - ₹" + price);
             });
+        } else {
+            System.out.println("Category not found!");
         }
     }
 
@@ -86,6 +88,6 @@ class ProductModule {
             Double productPrice = productPrices.get(productName);
             return new AbstractMap.SimpleEntry<>(productName, productPrice);
         }
-        return null;
+        return null; // Return null if product is not found
     }
 }
