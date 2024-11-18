@@ -46,7 +46,6 @@ A simple Java-based application designed to simulate an online shopping experien
 ## Requirements
 - **Java Version:** Java 8 or higher
 - **IDE:** IntelliJ IDEA, Eclipse, or NetBeans (optional)
-- **Unit Testing:** JUnit (optional)
 
 ---
 
